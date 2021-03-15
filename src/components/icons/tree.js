@@ -8,6 +8,7 @@ const Tree = () => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
+        <title>Tree</title>
         <path
           d="M35.2957 50.3457C41.7457 35.1165 33.6832 19.529 17.5582 15.5874C11.1082 30.9957 18.9917 46.5832 35.2957 50.3457Z"
           fill="#66C6B9"
@@ -56,3 +57,4 @@ const Tree = () => {
     </>
   );
 };
+export default Tree;
