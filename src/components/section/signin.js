@@ -7,6 +7,7 @@ const Forms = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   input {
     margin: 5px;
     padding: 10px;
@@ -19,25 +20,70 @@ const Forms = styled.form`
     &:focus {
       border: 2px solid var(--dark-blue);
       outline: none;
+      &:invalid {
+        background-color: rgba(237, 99, 98, 0.2);
+      }
+    }
+  }
+  .input-section {
+    display: grid;
+    a {
+      color: var(--red-wine);
+      text-decoration: underline;
+      display: flex;
+      flex-direction: row-reverse;
     }
   }
   .feedback-text {
     color: var(--red-wine);
     font-weight: 400;
-    margin-bottom: 0.8rem;
+    margin: 0 5px 10px;
   }
-  .checkbox {
-    margin-bottom: 1rem;
-    display: inline-flex;
-    align-items: center;
-    color: var(--dark);
+  .round {
+    position: relative;
 
-    a {
-      margin-left: 15rem;
-      color: var(--red-wine);
-      text-decoration: underline;
+    small {
+      color: var(--dark);
+      margin-left: 1rem;
+    }
+    label {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+      height: 28px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 28px;
+      &:after {
+        border: 2px solid #fff;
+        border-top: none;
+        border-right: none;
+        content: "";
+        height: 6px;
+        left: 7px;
+        opacity: 0;
+        position: absolute;
+        top: 8px;
+        transform: rotate(-45deg);
+        width: 12px;
+      }
+    }
+    input[type="checkbox"] {
+      visibility: hidden;
+
+      &:checked + label {
+        background-color: var(--light-yellow);
+        border-color: var(--light-yellow);
+
+        &:after {
+          opacity: 1;
+        }
+      }
     }
   }
+
   button {
     border: none;
     border-radius: 20px;
@@ -105,41 +151,54 @@ const SignIn = () => {
     getApi();
     setEmail("");
     setPassword("");
-    setCheck(false);
+    setCheck();
   };
   return (
     <>
       <Forms onSubmit={handleSubmit}>
-        <input
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Email"
-          required
-        />
-        <p className="feedback-text">{feedbackEmail}</p>
-        <input
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Password"
-          required
-        />
-        <p className="feedback-text">{feedbackPass}</p>
-        <div className="checkbox">
+        <div className="input-section">
           <input
-            onClick={(e) => setCheck(!e.check)}
-            value={check}
-            type="checkbox"
-            name="checkbox"
-            id="checkbox"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+            required
           />
+
+          {feedbackEmail ? (
+            <small className="feedback-text">
+              <i className="fas fa-exclamation-circle" />
+              {feedbackEmail}
+            </small>
+          ) : null}
+        </div>
+
+        <div className="input-section">
+          <input
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+          <a href="#">Forgot password?</a>
+        </div>
+
+        {feedbackPass ? (
+          <small className="feedback-text" style={{ marginTop: "-1.65rem" }}>
+            <i className="fas fa-exclamation-circle" />
+            {feedbackPass}
+          </small>
+        ) : null}
+
+        <div className="round">
+          <input type="checkbox" id="checkbox" />
+          <label htmlFor="checkbox"></label>
           <small> Remember Me</small>
-          <a href="#">Forget your password?</a>
         </div>
         <ButtonSec>
           <button className="signin">Sign In</button>
